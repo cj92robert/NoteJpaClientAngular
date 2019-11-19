@@ -22,7 +22,9 @@ export class NoteComponent implements OnInit {
         this.myIp = res.ip;
       }
     );
-    this.noteservice.getIPAddress().subscribe( res => this.backendLive = true);
+    this.noteservice.isLive().subscribe( res => {
+      this.backendLive = true;
+    });
     this.getList();
   }
   getList() {
