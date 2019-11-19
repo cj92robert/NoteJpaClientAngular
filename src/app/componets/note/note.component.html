@@ -1,0 +1,72 @@
+<div *ngIf="backendLive;then work;else notwork"></div>
+
+<ng-template #work>
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary" (click)="clickList()">Lista Notatek</button>
+  <button type="button" class="btn btn-secondary" (click)="clickAdd()">Dodaj Notatke</button>
+</div>
+<br>
+<div *ngIf="addClick;then adder;else list"></div>
+<ng-template #list>
+  <br><br>
+
+  <table class="table table-hover" >
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nazwa</th>
+      <th scope="col">Treść</th>
+      <th scope="col">Ip</th>
+      <th scope="col">Edytuj/Usuń</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let note of listNote">
+    <tr >
+      <th scope="row">{{note.id}}</th>
+      <td>{{note.name}}</td>
+      <td>{{note.content}}</td>
+      <td>{{note.ip}}</td>
+      <td>
+        <button type="button" class="btn btn-secondary" (click)="clicEdit(note.id)">Edit</button> &nbsp;
+        <button type="button" class="btn btn-secondary" (click)="deleteNote(note.id)" >X</button>
+      </td>
+    </tr>
+      <tr *ngIf="editClickindex == note.id">
+      <td>{{note.id}}</td>
+      <td><input type="text" class="form-control" id="name" [(ngModel)]="note.name"></td>
+        <td><input type="text" class="form-control" id="content" [(ngModel)]="note.content"></td>
+        <td>{{note.ip}}</td>
+      <td><button type="button" class="btn btn-secondary" (click)="updateNote(note)">Aktualizuj</button></td>
+      </tr>
+</ng-container>
+    </tbody>
+  </table>
+
+</ng-template>
+
+
+
+
+
+
+<ng-template #adder>
+  <br>
+  <br>
+  <label for="nameAdd">Nazwa notatki:</label>
+  <br>
+  <input type="text"  id="nameAdd" [(ngModel)]="noteAdd.name">
+  <br>
+  <label for="contentAdd">Treść notatki:</label>
+  <br>
+  <input type="text" class="form-control" id="contentAdd" [(ngModel)]="noteAdd.content" rows="4">
+
+  <br>
+  <button (click)="saveNote(noteAdd)">Zapisz</button>
+
+
+</ng-template>
+</ng-template>
+<ng-template #notwork>
+  Oczekiwanie na serwer backendu....
+</ng-template>
